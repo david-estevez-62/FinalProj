@@ -44,7 +44,7 @@ var adminController = {
     // and pass it to the view.
     
     //username or password doesn't match whats in the database
-    res.send('404 Error')
+    res.redirect('/')
   },
 
   // This is the post handler for any incoming login attempts.

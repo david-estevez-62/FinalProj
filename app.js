@@ -112,16 +112,19 @@ app.post('/editSettings', usersController.EditSettings);
 app.get('/:username/search', function (req, res) {
   res.render('search', {user: req.user});
 });
-app.post('/searchUsers', function (req, res) {
+app.post('/:username/search', function (req, res) {
+ 
   // User.findOne({'username':username}, function(err, user){
   User.find({username: new RegExp(req.body.search, 'i')}, function (err, user) {
-    if (err) return next(err);
+    // if (err) return next(err);
 
-        // If user is not found...
-        if (!user){
-          return next(null, false, req.flash('loginError', 'No user found.'));
-        }
-      res.send(user)
+        // // If user is not found...
+        // if (!user){
+        //   return next(null, false, req.flash('loginError', 'No user found.'));
+        // }
+        // console.log(user)
+
+      res.render('search', {userlist: user, user: req.user});
     })
    
     // res.('/search')

@@ -10,7 +10,7 @@ html(lang='en')
 		.header
 			a.homelogo(href="/"+user.username+"/home") IdeaDex
 		nav(role="navigation")
-			form.form-group(action="/searchUsers", method="post")
+			form.form-group(action="/"+user.username+"/search", method="post")
 				input#searchinput.searchinput(type="text", placeholder="search for user", name="search")
 				input(type="submit", value="Search")
 		ul.menuBar

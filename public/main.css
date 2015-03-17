@@ -164,13 +164,17 @@ ul li:hover ul {
 .edit{
 	display:inline-block;
 	position: fixed;
+	width:350px;
 	top:300px;
-	left:400px;
+	left:500px;
 }
 #privacytog {
 	margin:39px 0 0 950px;
 }
-
+.searchlist {
+	margin-top:100px;
+	margin-left:500px;
+}
 
 
 /*Create account page*/
