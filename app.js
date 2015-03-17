@@ -9,6 +9,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var passport = require('passport');
 var passportConfig = require('./config/passport');
+var User = require('./models/users.js');
 
 var indexController = require('./controllers/index.js');
 var adminController = require('./controllers/admin');
@@ -61,6 +62,7 @@ app.get('/createacct', function (req, res) {
 
 
 
+
 app.use(passportConfig.isLoggedIn);
 // app.use(passportConfig.ensureAuthenticated);
 
@@ -69,15 +71,16 @@ app.use(passportConfig.isLoggedIn);
 
 
 
-app.get('/:id/home', function(req,res){
- res.render('home', {user: req.user})
-})
+
 // app.get('/:username/home', function(req,res){
 //  res.render('home', {user: req.user})
 // })
 // app.get('/home', function (req, res) {
 //   res.render('home', {user: req.user});
 // });
+app.get('/:id/home', function (req, res) {
+  res.render('home', {user: req.user});
+});
 app.post('/ideaPosted', usersController.AddPost);
 
 
@@ -98,13 +101,30 @@ app.post('/ideaPosted', usersController.AddPost);
 //   res.redirect('/'+id+'/edit');
 // });
 app.get('/:username/edit', function (req, res) {
-  res.render('edit', {user: req.user})
+  res.render('edit', {user: req.user});
 });
-app.post('/editSettings', usersController.EditSettings)
-		// res.redirect('/guest-portal');
+app.post('/editSettings', usersController.EditSettings);
+//res.redirect('/guest-portal');
+
+
+
 
 app.get('/:username/search', function (req, res) {
-   res.render('search', {user: req.user})
+  res.render('search', {user: req.user});
+});
+app.post('/searchUsers', function (req, res) {
+  // User.findOne({'username':username}, function(err, user){
+  User.find({username: new RegExp(req.body.search, 'i')}, function (err, user) {
+    if (err) return next(err);
+
+        // If user is not found...
+        if (!user){
+          return next(null, false, req.flash('loginError', 'No user found.'));
+        }
+      res.send(user)
+    })
+   
+    // res.('/search')
 });
 app.get('/:username/discover', function (req, res) {
   res.render('discover', {user: req.user})
